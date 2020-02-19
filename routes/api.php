@@ -18,3 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/commodities', 'CommoditiesController@index');
+Route::get('/commodity/{id}', 'CommoditiesController@show');
+Route::post('/commodity', 'CommoditiesController@store');
+Route::patch('/commodity/{id}', 'CommoditiesController@update');
+Route::delete('/commodity/{id}', 'CommoditiesController@destroy');

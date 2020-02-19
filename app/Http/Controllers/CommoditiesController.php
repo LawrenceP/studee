@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Commodity;
-use Illuminate\Http\Request;
+use App\Http\Requests\CommoditiesControllerEditRequest;
 use App\Http\Requests\CommoditiesControllerStoreRequest;
 use App\Http\Resources\CommodityResource;
 
 class CommoditiesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of commodities.
      *
-     * @return \Illuminate\Http\Response
+     * @return object
      */
     public function index()
     {
-        return Commodity::all();
+        return CommodityResource::collection(Commodity::all());
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created commodity.
      *
      * @param  CommoditiesControllerStoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return CommodityResource
      */
     public function store(CommoditiesControllerStoreRequest $request)
     {
@@ -42,47 +42,77 @@ class CommoditiesController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified commodity.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return CommodityResource
      */
     public function show($id)
     {
-        //
+        return new CommodityResource(Commodity::find($id));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified commodity.
      *
+     * @param  CommoditiesControllerEditRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return CommodityResource
      */
-    public function edit($id)
+    public function update(CommoditiesControllerEditRequest $request, $id)
     {
-        //
+        $commodity = Commodity::findOrFail($id);
+
+        if ($request->has('segment')) {
+            $commodity->segment = $request->segment;
+        }
+
+        if ($request->has('segment_name')) {
+            $commodity->segment_name = $request->segment_name;
+        }
+
+        if ($request->has('family')) {
+            $commodity->family = $request->family;
+        }
+
+        if ($request->has('family_name')) {
+            $commodity->family_name = $request->family_name;
+        }
+
+        if ($request->has('class')) {
+            $commodity->class = $request->class;
+        }
+
+        if ($request->has('class_name')) {
+            $commodity->class_name = $request->class_name;
+        }
+
+        if ($request->has('commodity')) {
+            $commodity->commodity = $request->commodity;
+        }
+
+        if ($request->has('commodity_name')) {
+            $commodity->commodity_name = $request->commodity_name;
+        }
+
+        $commodity->save();
+
+        return new CommodityResource($commodity);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Remove the specified commodity.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return object
      */
     public function destroy($id)
     {
-        //
+        $commodity = Commodity::findOrFail($id);
+        $commodity->delete();
+
+        return response()->json([
+            "message" => "Commodity with id ($id) has been successfully deleted"
+        ]);
     }
 }
