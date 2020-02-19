@@ -16,7 +16,7 @@ class CommoditiesController extends Controller
      */
     public function index()
     {
-        return CommodityResource::collection(Commodity::all());
+        return CommodityResource::collection(Commodity::paginate(10));
     }
 
     /**
