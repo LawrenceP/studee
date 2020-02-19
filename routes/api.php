@@ -17,8 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/commodities', 'CommoditiesController@index');
-Route::get('/commodity/{id}', 'CommoditiesController@show');
-Route::post('/commodity', 'CommoditiesController@store');
-Route::patch('/commodity/{id}', 'CommoditiesController@update');
-Route::delete('/commodity/{id}', 'CommoditiesController@destroy');
+Route::get('/commodities', 'CommoditiesController@index')->name('commodity.index');
+Route::get('/commodity/{id}', 'CommoditiesController@show')->name('commodity.show');
+Route::post('/commodity', 'CommoditiesController@store')->name('commodity.store');
+Route::patch('/commodity/{id}', 'CommoditiesController@update')->name('commodity.update');
+Route::delete('/commodity/{id}', 'CommoditiesController@destroy')->name('commodity.destroy');
